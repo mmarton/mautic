@@ -1,0 +1,12 @@
+version: '3.6'
+
+# For Xdebug and/or bundle development
+services:
+  php:
+    build:
+      target: dev
+    expose:
+      - "9003"
+    volumes:
+      - ./docker/php/php-xdebug.ini:/usr/local/etc/php/conf.d/php-xdebug.ini:ro
+      - ../my-bundle:/var/www/html/plugins/MyBundle
