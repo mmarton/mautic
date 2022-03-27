@@ -186,6 +186,20 @@ class EmailType extends AbstractType
         );
 
         $builder->add(
+            'customUrlParameters',
+            TextType::class,
+            [
+                'label'      => 'mautic.email.custom_url_parameters.label',
+                'label_attr' => ['class' => 'control-label'],
+                'attr'       => [
+                    'class'   => 'form-control',
+                    'tooltip' => 'mautic.email.custom_url_parameters.tooltip',
+                ],
+                'required' => false,
+            ]
+        );
+
+        $builder->add(
             'headers',
             SortableListType::class,
             [

@@ -98,6 +98,11 @@ class Email extends FormEntity implements VariantEntityInterface, TranslationEnt
     /**
      * @var string
      */
+    private $customUrlParameters;
+
+    /**
+     * @var string
+     */
     private $plainText;
 
     /**
@@ -267,6 +272,7 @@ class Email extends FormEntity implements VariantEntityInterface, TranslationEnt
         $builder->addNullableField('template', Type::STRING);
         $builder->addNullableField('content', Type::TARRAY);
         $builder->addNullableField('utmTags', Type::TARRAY, 'utm_tags');
+        $builder->addNullableField('customUrlParameters', Type::STRING, 'custom_url_parameters');
         $builder->addNullableField('plainText', Type::TEXT, 'plain_text');
         $builder->addNullableField('customHtml', Type::TEXT, 'custom_html');
         $builder->addNullableField('emailType', Type::TEXT, 'email_type');
@@ -360,6 +366,16 @@ class Email extends FormEntity implements VariantEntityInterface, TranslationEnt
             new \Symfony\Component\Validator\Constraints\Email(
                 [
                     'message' => 'mautic.core.email.required',
+                ]
+            )
+        );
+
+        $metadata->addPropertyConstraint(
+            'customUrlParameters',
+            new \Symfony\Component\Validator\Constraints\Regex(
+                [
+                    'pattern' => '/^\w+=\w*(&\w+=\w*)*$/', // key1=value1&key2=value2
+                    'message' => 'mautic.core.email.custom_url_parameters.regex',
                 ]
             )
         );
@@ -595,6 +611,19 @@ class Email extends FormEntity implements VariantEntityInterface, TranslationEnt
         $this->utmTags = $utmTags;
 
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCustomUrlParameters()
+    {
+        return $this->customUrlParameters;
+    }
+
+    public function setCustomUrlParameters(string $customUrlParameters)
+    {
+        $this->customUrlParameters = $customUrlParameters;
     }
 
     /**

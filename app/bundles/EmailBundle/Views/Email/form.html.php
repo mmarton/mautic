@@ -225,6 +225,10 @@ if (!isset($previewUrl)) {
                 echo $view['form']->row($utmTag);
             endforeach;
             ?>
+            <hr />
+            <h5><?php echo $view['translator']->trans('mautic.email.custom_url_parameters.header'); ?></h5>
+            <br />
+            <?php echo $view['form']->row($form['customUrlParameters']); ?>
         </div>
         <div class="hide">
             <?php echo $view['form']->rest($form); ?>
