@@ -1,0 +1,45 @@
+version: '3.6'
+
+services:
+  php:
+    depends_on:
+      - db
+    build:
+      context: ./docker/php
+      target: base
+    environment:
+      APACHE_RUN_USER: www-data
+      TZ: Europe/Budapest
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - .:/var/www/html
+      - ./docker/php/php.ini:/usr/local/etc/php/php.ini:ro
+      - ./docker/php/virtualhost.conf:/etc/apache2/sites-enabled/virtualhost.conf:ro
+    links:
+      - db
+
+  db:
+    image: mysql:8
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      TZ: Europe/Budapest
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./docker/mysql/my.cnf:/etc/mysql/conf.d/my.cnf:ro
+
+  mailhog:
+    image: mailhog/mailhog
+    environment:
+      TZ: Europe/Budapest
+    logging:
+      driver: none
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+
+volumes:
+  db_data:

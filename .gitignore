@@ -15,6 +15,7 @@
 /.env
 /composer.phar
 /coverage.xml
+/docker-compose.override.yml
 
 /app/bootstrap*
 /app/console
